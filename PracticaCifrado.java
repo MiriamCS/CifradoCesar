@@ -8,10 +8,10 @@ public class PracticaCifrado {
     private static String nuevoAlfabeto;
 
     public static void main(String[] args) {
-        alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        nuevoAlfabeto = "79*$60?¿8453!=%&12@#mirsao";
+        alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ";
+        nuevoAlfabeto = "79*$60?¿8453!=%&12@#mirsaoqwert";
         boolean continua = true;
-        for (int i = 0; i<=25; i++){
+        for (int i = 0; i<alfabeto.length(); i++){
             mapa.put(alfabeto.charAt(i), i);
             mapa2.put(nuevoAlfabeto.charAt(i), i);
         }
@@ -51,7 +51,7 @@ public class PracticaCifrado {
         StringBuilder salida= new StringBuilder();
         for (int i = 0; i<texto.length(); i++){
             int codigoNuevaLetra= mapa.get(texto.charAt(i)) + 8;
-            if (codigoNuevaLetra >=26) codigoNuevaLetra -= 26;
+            if (codigoNuevaLetra >alfabeto.length()) codigoNuevaLetra -= alfabeto.length();
             salida.append(nuevoAlfabeto.charAt(codigoNuevaLetra));
         }
         System.out.println("El texto cifrado es \"" + salida + "\"");
@@ -59,10 +59,9 @@ public class PracticaCifrado {
 
     public static void descifrar(String texto){
         StringBuilder salida= new StringBuilder();
-        System.out.println(mapa2);
         for (int i = 0; i<texto.length(); i++){
             int codigoNuevaLetra= mapa2.get(texto.charAt(i)) - 8;
-            if (codigoNuevaLetra <0) codigoNuevaLetra += 26;
+            if (codigoNuevaLetra <0) codigoNuevaLetra += alfabeto.length();
             salida.append(alfabeto.charAt(codigoNuevaLetra));
         }
         System.out.println("El texto descifrado es \"" + salida + "\"");
