@@ -1,15 +1,16 @@
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class PracticaCifrado {
     private static final HashMap<Character, Integer> mapa = new HashMap<>();
     private static final HashMap<Character, Integer> mapa2 = new HashMap<>();
     private static String alfabeto;
     private static String nuevoAlfabeto;
+    private static int k;
 
     public static void main(String[] args) {
-        alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ";
-        nuevoAlfabeto = "79*$60?¿8453!=%&12@#mirsaoqwert";
+        alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ1234567890¿?*Ç=()/&%$¡!,.;";
+        nuevoAlfabeto = barajarCadena(alfabeto);
+        k= (int) (Math.random() * 10);
         boolean continua = true;
         for (int i = 0; i<alfabeto.length(); i++){
             mapa.put(alfabeto.charAt(i), i);
@@ -25,14 +26,14 @@ public class PracticaCifrado {
                 opcion = leer.next().toUpperCase();
             }
             System.out.print("Introduzca el texto: ");
-            String texto = leer.next();
+            String texto = leer.next().toUpperCase();
             switch (opcion) {
-                case "C": cifrar(texto.toUpperCase());
+                case "C": cifrar(texto);
                     break;
                 case "D": descifrar(texto);
                     break;
             }
-            System.out.print("¿Quiere continuar? (Y/N): ");
+            System.out.print("¿Quiere continuar? Ten en cuenta que tras salir habrá un nuevo cifrado (Y/N): ");
             String opContinuar = leer.next().toUpperCase();
             while (!opContinuar.equals("Y") & !opContinuar.equals("N")) {
                 System.out.println("Opción no válida");
@@ -47,10 +48,23 @@ public class PracticaCifrado {
 
     }
 
+    public static String barajarCadena(String input){
+        List<Character> characters = new ArrayList<Character>();
+        for(char c:input.toCharArray()){
+            characters.add(c);
+        }
+        StringBuilder output = new StringBuilder(input.length());
+        while(characters.size()!=0){
+            int randPicker = (int)(Math.random()*characters.size());
+            output.append(characters.remove(randPicker));
+        }
+        return output.toString();
+    }
+
     public static void cifrar(String texto){
         StringBuilder salida= new StringBuilder();
         for (int i = 0; i<texto.length(); i++){
-            int codigoNuevaLetra= mapa.get(texto.charAt(i)) + 8;
+            int codigoNuevaLetra= mapa.get(texto.charAt(i)) + k;
             if (codigoNuevaLetra >alfabeto.length()) codigoNuevaLetra -= alfabeto.length();
             salida.append(nuevoAlfabeto.charAt(codigoNuevaLetra));
         }
@@ -60,7 +74,7 @@ public class PracticaCifrado {
     public static void descifrar(String texto){
         StringBuilder salida= new StringBuilder();
         for (int i = 0; i<texto.length(); i++){
-            int codigoNuevaLetra= mapa2.get(texto.charAt(i)) - 8;
+            int codigoNuevaLetra= mapa2.get(texto.charAt(i)) - k;
             if (codigoNuevaLetra <0) codigoNuevaLetra += alfabeto.length();
             salida.append(alfabeto.charAt(codigoNuevaLetra));
         }
