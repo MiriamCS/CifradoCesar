@@ -7,16 +7,20 @@ public class PracticaCifrado {
     private static String nuevoAlfabeto;
     private static int k;
 
-    public static void main(String[] args) {
+    static{
         alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ1234567890¿?*Ç=()/&%$¡!,.;";
         nuevoAlfabeto = barajarCadena(alfabeto);
         k= (int) (Math.random() * 10);
-        boolean continua = true;
+
         for (int i = 0; i<alfabeto.length(); i++){
             mapa.put(alfabeto.charAt(i), i);
             mapa2.put(nuevoAlfabeto.charAt(i), i);
         }
-        Scanner leer = new Scanner(System.in);
+    }
+
+    public static void main(String[] args) {
+        boolean continua = true;
+        final Scanner leer = new Scanner(System.in);
         while (continua) {
             System.out.print("Para cifrar introduzca \"C\". \"Para descifrar introduzca \"D\": ");
             String opcion = leer.next().toUpperCase();
@@ -38,7 +42,7 @@ public class PracticaCifrado {
             while (!opContinuar.equals("Y") & !opContinuar.equals("N")) {
                 System.out.println("Opción no válida");
                 System.out.print("Para continuar introduzca \"Y\". \"Para parar introduzca \"N\": ");
-                opContinuar = leer.next();
+                opContinuar = leer.next().toUpperCase();
             }
             if (opContinuar.equals("N")){
                 continua = false;
@@ -48,15 +52,17 @@ public class PracticaCifrado {
 
     }
 
+
+
     public static String barajarCadena(String input){
-        List<Character> characters = new ArrayList<Character>();
+        List<Character> characters = new ArrayList<>();
         for(char c:input.toCharArray()){
             characters.add(c);
         }
         StringBuilder output = new StringBuilder(input.length());
-        while(characters.size()!=0){
-            int randPicker = (int)(Math.random()*characters.size());
-            output.append(characters.remove(randPicker));
+        while(!characters.isEmpty()){
+            int selector = (int)(Math.random()*characters.size());
+            output.append(characters.remove(selector));
         }
         return output.toString();
     }
@@ -65,7 +71,8 @@ public class PracticaCifrado {
         StringBuilder salida= new StringBuilder();
         for (int i = 0; i<texto.length(); i++){
             int codigoNuevaLetra= mapa.get(texto.charAt(i)) + k;
-            if (codigoNuevaLetra >alfabeto.length()) codigoNuevaLetra -= alfabeto.length();
+            if (codigoNuevaLetra >alfabeto.length())
+                codigoNuevaLetra -= alfabeto.length();
             salida.append(nuevoAlfabeto.charAt(codigoNuevaLetra));
         }
         System.out.println("El texto cifrado es \"" + salida + "\"");
@@ -75,7 +82,8 @@ public class PracticaCifrado {
         StringBuilder salida= new StringBuilder();
         for (int i = 0; i<texto.length(); i++){
             int codigoNuevaLetra= mapa2.get(texto.charAt(i)) - k;
-            if (codigoNuevaLetra <0) codigoNuevaLetra += alfabeto.length();
+            if (codigoNuevaLetra <0)
+                codigoNuevaLetra += alfabeto.length();
             salida.append(alfabeto.charAt(codigoNuevaLetra));
         }
         System.out.println("El texto descifrado es \"" + salida + "\"");
