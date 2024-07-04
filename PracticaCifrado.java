@@ -11,7 +11,6 @@ public class PracticaCifrado {
         alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ1234567890¿?*Ç=()/&%$¡!,.;";
         nuevoAlfabeto = barajarCadena(alfabeto);
         k= (int) (Math.random() * 10);
-
         for (int i = 0; i<alfabeto.length(); i++){
             mapa.put(alfabeto.charAt(i), i);
             mapa2.put(nuevoAlfabeto.charAt(i), i);
